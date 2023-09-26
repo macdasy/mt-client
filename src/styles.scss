@@ -1,0 +1,299 @@
+
+$color1: #181922;
+$color2: #F4F4F4;
+$color3: #9778DB;
+$color4: #55BF9D;
+
+$prime-font : 'Montserrat', sans-serif;
+
+.uk-navbar-container{
+    padding: 1% 0%;
+    background: $color1 !important;
+}
+
+.uk-navbar-container h3{
+    color: $color2;
+}
+
+.uk-navbar-container a{
+    color: $color2 !important;
+    text-transform: capitalize !important;
+    font-family: $prime-font !important;
+    font-weight: 500;
+    font-size: medium !important;
+}
+
+h1, h2, h3, h4, h5, h6,p{
+    color: #181922;
+    font-family: $prime-font;
+}
+
+
+input{
+    font-family: $prime-font !important;
+    font-weight: 500 !important;
+    transition: all 0.7s;
+    outline: none !important;
+    border: none;
+    border-bottom: #18192257 1px solid;
+    padding: 2% 0%;
+}
+
+::placeholder{
+    font-family: $prime-font;
+    // font-weight: 600;
+}
+
+// html { /* body won't work ¯\_(ツ)_/¯ */
+//     scroll-snap-type: y mandatory;
+//     scroll-snap-points-y: repeat(100vh);
+//     scroll-snap-type: y mandatory;
+// }
+
+// section.wrapper {
+//     height: 100vh;
+//     scroll-snap-align: start;
+//     position: relative;
+// }
+
+.w1{
+    font-weight: 100;
+}
+.w2{
+    font-weight: 200;
+}
+.w3{
+    font-weight: 300;
+}
+.w4{
+    font-weight: 400;
+}
+.w5{
+    font-weight: 500;
+}
+.w6{
+    font-weight: 600;
+}
+.w7{
+    font-weight: 700;
+}
+.w8{
+    font-weight: 800;
+}
+.w9{
+    font-weight: 900;
+}
+
+a{
+    font-family: $prime-font;
+    color: #FFF6F4;
+}
+
+span, button{
+    transition: all 0.7s;
+}
+
+button {
+    font-family: $prime-font;
+    background: $color2;
+    color: $color1;
+    border: none;
+    padding: 1em 1.5em;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button.dark{
+    background: $color1;
+    color: $color2;
+}
+
+button.google{
+    background: $color2;
+    color: $color1;
+}
+
+button:not(.no):hover{
+    background: $color1 !important;
+    color: $color2 !important;
+}
+
+button.dark:hover{
+    background: $color2 !important;
+    color: $color1 !important;
+}
+
+button.large:hover p{
+    color: $color2 !important;
+}
+
+button:hover span{
+    color: $color2 !important;
+}
+
+.fancy-underline{
+    text-decoration: underline;
+    text-decoration-color: #55BF9D;
+}
+
+.flex-sb{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// Landing 
+
+#landing{
+    height: 100vh;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.land-left{
+    height: 100vh;
+    padding: 5% 8% 6%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.land-right{
+    height: 100vh;
+    margin-bottom: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(148,187,233);
+    background: linear-gradient(0deg, rgba(148,187,233,1) 29%, rgba(151,120,219,1) 70%);
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+section.padded{
+    padding: 10% 7% 5%;
+}
+
+// Functionalities
+
+.func{
+    position: relative;
+}
+
+#chip{
+    position:absolute;
+    background: $color1;
+    color: $color2;
+    width: min-content;
+    top: -30px;
+    left: 100px;
+    padding: 2%;
+    width: 20px;
+    height: 20px;
+    font-weight: 700;
+    font-size: medium;
+    border-radius: 999px;
+}
+
+.func img{
+    border-radius: 50%;
+    padding: 5%;
+    margin-bottom: 5%;
+    background: $color3;
+}
+
+// US 
+
+#us{
+    background: $color3;
+}
+
+.us img{
+    border-radius: 50%;
+    padding: 5%;
+    margin-bottom: 5%;
+    background: $color4;
+}
+
+// pricing 
+
+#pricing .container{
+    padding: 3% 6% 6%;
+    background: $color1;
+}
+
+// Footer
+ 
+#footer{
+    padding: 7% 5% 1%;
+    background: $color1;    
+}
+
+
+a{
+    color: grey;
+    transition: all 0.7s !important;
+    text-decoration: none !important;
+}
+
+a:hover{
+    color: grey;
+    opacity: 0.7;
+}
+
+
+// Login
+
+.login-wrapper{
+    height: 100vh;
+    padding: 1%;
+    background: $color2;
+
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.flex-col{
+    margin: auto;
+    width: 60%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.login-left{
+    height: 100vh;
+}
+
+.login-right{
+    position: relative;
+    height: 100vh;
+    padding: 5% 2% 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: white;
+    border-radius: 15px;
+
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+}
+
+.login-right button.goHome{
+    top: 5px;
+    right: 5px;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: fit-content !important;
+}
