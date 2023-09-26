@@ -4,6 +4,13 @@ const points = ['Privacy' , 'Accuracy', 'Timeliness', 'Data Privacy'];
 
 
 export default function Us() {
+
+    const toPricing = () => {
+        window.location.pathname = '/';
+        window.location.pathname = '/pricing';
+    }
+
+
     return(
         <section className="wrapper padded uk-text-center" id="us">
 
@@ -52,7 +59,7 @@ export default function Us() {
                     </Grid>
                    
                 </Grid>
-                <button className="dark" style={{margin:'5% auto 0%'}}> See Pricing </button>
+                <button className="dark" style={{margin:'5% auto 0%'}} onClick={toPricing}> See Pricing </button>
 
         </section>
     )
