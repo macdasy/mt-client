@@ -27,7 +27,7 @@ export default function Landing(){
                         </div>
 
                         <div>
-                            <h1 className="w6" style={{ fontSize:'65px', margin:0, padding:0, lineHeight:'1' }}> 
+                            <h1 className="w6 resize" style={{ margin:0, padding:0, lineHeight:'1' }}> 
                                 Get your bank statement <span className="fancy-underline">summarized!</span>
                             </h1>
                             <h4 style={{marginTop:'3%'}} className="w5"> In minutes & Feel the Veracity </h4>
