@@ -1,0 +1,323 @@
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { Checkbox, FormControl, FormControlLabel, FormHelperText, Grid, IconButton, Input, InputAdornment, InputLabel, MenuItem, Select} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Menu from '@mui/material/Menu';
+import StyledDropzone from './DropZone';
+import { red } from '@mui/material/colors';
+import Avatar from '@mui/material/Avatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import Logout from '@mui/icons-material/Logout';
+import './upload.css'
+
+
+
+const customTheme = (outerTheme) =>
+createTheme({
+  palette: {
+    mode: outerTheme.palette.mode,
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '--TextField-brandBorderColor': '#181922b8',
+          '--TextField-brandBorderFocusedColor': '#181922b8',
+          '& label.Mui-focused': {
+            color: '#181922',
+          },
+          '& label': {
+              color: '#181922b8',
+          },
+        },
+      },
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          '&:before': {
+            borderBottom: '2px solid var(--TextField-brandBorderColor)',
+          },
+          '&:hover:not(.Mui-disabled, .Mui-error):before': {
+            borderBottom: '2px solid var(--TextField-brandBorderColor)',
+          },
+          '&.Mui-focused:after': {
+            borderBottom: '2px solid #181922',
+          },
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+          root: {
+              '--TextField-brandBorderColor': '#181922b8',
+              '--TextField-brandBorderFocusedColor': '#181922b8',
+              '& label.Mui-focused': {
+                color: '#181922',
+              },
+              '& label': {
+                  color: '#181922b8',
+              },
+          },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+          root: {
+                color: '#181922',
+                '&:hover': {
+                  color: '#181922',
+              },
+          },
+      },
+    },
+  },
+});
+
+const banks = [ 'HDFC Bank', "ICICI Bank", "SBI Bank", "Canara Bank", "PNB Bank" ]
+
+export default function Upload(){
+
+    const [bank, setBank] = useState('')
+    const [classes, setclass] = useState('dark disabled')
+    const [password, setPassword] = useState('')
+    const [encrypted, setEncrypted] = useState(true)
+    const [msg, setMsg] = useState('')
+    const [fselected, selected] = useState(false)
+    
+    const fileSelected = (e) => { 
+      if(fselected!==e && fselected) setMsg('')
+      if(fselected!==e) selected(e) 
+    }
+    
+    const chooseBank = (e) => { 
+      setBank(e.target.value);
+      if (msg === 'Please select your Bank!') setMsg('')
+    }
+    const changePassword = (e) => { 
+      if (msg === 'Enter Password!') setMsg('')
+      setPassword(e.target.value) 
+    }
+
+    const handleCheck = (e) => {
+      if (msg === 'Enter Password!') setMsg('')
+      setEncrypted(e.target.checked)
+    }
+
+    const handleStart = (e) => {
+      if(fselected){
+        if(bank){
+          if(!encrypted) setMsg('')
+          else setMsg('Please select your Bank!')
+          if (encrypted && !password) setMsg('Enter Password!')
+          else setMsg('')
+        }
+        else setMsg('Please select your Bank!')
+      } else {
+        setMsg('Please select your File!')
+      }
+    }
+
+    useEffect(()=>{
+      if(fselected){
+        console.log(fselected);
+        if(bank){
+          if(!encrypted) setclass('dark');
+          else if(encrypted && password) setclass('dark'); else setclass('dark disabled')
+        } else setclass('dark disabled')
+      } else {
+        setclass('dark disabled')
+      }
+    }, [encrypted, bank, password, fselected])
+
+
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+  
+    const handleMouseDownPassword = (event) => { event.preventDefault(); };
+
+    const outerTheme = useTheme();
+
+    return(
+        <section id="upload">
+
+            <div id="nav">
+                <h3 style={{fontWeight:600, margin:0}}> Hello, <span style={{color:'#55BF9D'}}>Purush G</span> </h3>
+                <AccBtn />
+            </div>
+
+            <div id="uploading-area">
+                
+                <Grid container>
+                  <Grid item xs={12} md={6}>
+
+                      <div class="container shadow">
+                          <StyledDropzone fileSelected={fileSelected} />
+
+                          <FormControlLabel 
+                            sx={{m:0, padding:'1%',boxSizing:'border-box' ,width:'100%', justifyContent:'center', color:'white', background:'#55BF9D', borderRadius:'0px 0px 15px 15px;', boxShadow:'0px 20px 20px 12px #F4F4F4'}}
+                            control={
+                                    <Checkbox 
+                                      checked={encrypted}
+                                      onChange={handleCheck}
+                                      inputProps={{ 'aria-label': 'controlled' }}
+                                      size="small" 
+                                      color="success"
+                                      sx={{
+                                        color: red[50],
+                                        '&.Mui-checked': {
+                                          color: red[50],
+                                      }}} 
+                                    />} 
+                              label="File is Password Protected" 
+                          />
+                          
+                      </div>
+
+                  </Grid>
+
+                  <Grid item xs={12} md={6} id='form-right'>
+
+                    <div className='form-container'>
+                      
+                      <ThemeProvider theme={customTheme(outerTheme)}>
+
+                          <FormControl variant="standard" sx={{ m: 1, minWidth: 120, width:'100%' }} size='medium'>
+                              <InputLabel id="demo-simple-select-helper-label"> Choose Your Bank </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-helper-label"
+                                  id="demo-simple-select-helper"
+                                  value={bank}
+                                  label="Choose Your Bank"
+                                  onChange={chooseBank}
+                                >
+                                  <MenuItem value="">
+                                    <em>None</em>
+                                  </MenuItem>
+                                  { banks.map(b => {
+                                    return ( <MenuItem value={b}>{b}</MenuItem> )
+                                  })}
+                                </Select>
+                              <FormHelperText> Make sure you choose the correct bank appt. to the your statement. </FormHelperText>
+                          </FormControl>
+
+                          <FormControl sx={{ m: 1, minWidth: 120, width:'100%', display:(encrypted ? 'block' : 'none') }} variant="standard">
+                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                <Input
+                                    id="standard-adornment-password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={password}
+                                    onChange={changePassword}
+                                    endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            className='no'
+                                            disableRipple
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    }
+                                />
+                                <FormHelperText> Refer & Enter Password correctly. </FormHelperText>
+                        </FormControl>
+
+                      </ThemeProvider>
+                        
+                      <div id='bottom'>
+                        <small style={{color:'#e05a5a'}}> { msg } </small>
+                        <button id='start-process' className={classes} onClick={handleStart}> Start <KeyboardDoubleArrowRightOutlinedIcon /> </button>
+                      </div>
+
+                    </div>
+
+                  </Grid>
+                </Grid>
+            </div>
+
+            <p style={{textAlign:'center', fontSize:'small', opacity:0.7, margin:0}}> ~ We will not share, copy or make illegal use of your data. Trust Us. ~ </p>
+        </section>
+    )
+
+}
+
+
+function AccBtn() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        Account <ExpandMoreIcon /> 
+      </button>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            borderRadius:'15px',
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',      
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={handleClose}>
+          <Avatar /> My account
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+}

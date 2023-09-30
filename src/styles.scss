@@ -170,6 +170,7 @@ button:hover span{
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+
 .land-left{
     height: 100vh;
     padding: 5% 8% 6%;
@@ -312,4 +313,52 @@ a:hover{
     padding: 0.5em 1em;
     position: absolute;
     width: fit-content !important;
+}
+
+
+// Upload
+
+#upload #nav{
+    padding: 2% 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #0000002c;
+    box-shadow: -1px -9px 20px 20px #e1e1e1d3;;
+}
+
+#uploading-area{
+    padding: 3% 5% 0%;
+}
+
+#form-right{
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.form-container{
+    height: 100%;
+    padding: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#bottom{
+    margin-top: 5%;
+    align-self: flex-end;
+    justify-items: end;
+
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+button#start-process.disabled{
+    cursor: auto;
+    background: $color2 !important;
+    color: #181922 !important;
+    opacity: 0.5;
 }
