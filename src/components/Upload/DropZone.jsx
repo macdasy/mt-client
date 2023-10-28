@@ -1,8 +1,10 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const baseStyle = {
     flex: 1,
+    minWidth:'80%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -17,11 +19,12 @@ const baseStyle = {
 };
 
 const selStyle = {
+    minWidth:'90%',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '20px',
+    padding: '5%',
     borderWidth: 2,
     borderRadius: 2,
     borderColor: 'rgb(0 0 0 / 31%)',
@@ -70,6 +73,14 @@ function StyledDropzone(props) {
     selected
   ]);
 
+  const clearSelection = ()=>{
+    acceptedFiles.length = 0;
+    files.length = 0;
+    isSelected(false);
+    setText('One at a Time!')
+    console.log(acceptedFiles);
+  }
+
   const files = acceptedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
@@ -85,29 +96,34 @@ function StyledDropzone(props) {
     if(files.length>=1) {
         isSelected(true);
         props.fileSelected(true);
+        props.handleFile(acceptedFiles);
     }
+
     else {
         isSelected(false)
         props.fileSelected(false);
     } 
-  }, [selected, files, props])
+  }, [selected, files, props, acceptedFiles])
 
   return (
-    <div className="container">
+    <div className="container" style={{minWidth:'80%'}}>
         <div style={{textAlign:'left', width:'100%', marginBottom:'5%'}}>
             <h5 style={{margin:0, fontWeight:600}}> Select Your Files here </h5>
             <small style={{}}> {text} </small>
         </div>
 
       <div {...getRootProps({style})}>
-        <input {...getInputProps()}/>
+        <input {...getInputProps()} name='pdfFile'/>
         <p style={{textAlign:'center', opacity:0.7}}> 
             { !selected ? "Drag 'n' drop some files here, or click to select files" : "Wrong File? Reselect File!" } 
         </p>
       </div>
 
       <aside style={{textAlign:'left', width:'100%', marginTop:'5%', borderTop:'1px solid #0000002c', paddingTop:'5%'}}>
-        <h5 style={{margin:0}}>Files</h5>
+        <h5 style={{margin:0, display:'flex', width:'100%', justifyContent:'space-between'}}> 
+          Files 
+          { acceptedFiles.length!==0 && <CancelIcon sx={{fontSize:20, cursor:'pointer'}} onClick={clearSelection}/> }
+        </h5>
         { files.length >= 1 ? <ul>{files}</ul> : <small style={{textAlign:'center',margin:0, opacity:0.8}}>No file Selected</small> }
       </aside>
     </div>

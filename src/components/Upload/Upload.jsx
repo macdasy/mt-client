@@ -13,8 +13,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Logout from '@mui/icons-material/Logout';
 import './upload.css'
-
-
+import axios from 'axios';
+import InfoIcon from '@mui/icons-material/Info';
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
 const customTheme = (outerTheme) =>
 createTheme({
@@ -85,9 +87,23 @@ export default function Upload(){
     const [bank, setBank] = useState('')
     const [classes, setclass] = useState('dark disabled')
     const [password, setPassword] = useState('')
+    const [threshold, setThreshold] = useState('')
     const [encrypted, setEncrypted] = useState(true)
     const [msg, setMsg] = useState('')
     const [fselected, selected] = useState(false)
+    const [uploadFile, proceedUFile] = useState(false)
+
+    const [pdfFile, setFile] = useState();
+
+    const handleFile = (event) => {
+      const selectedFile = event;
+      setFile(selectedFile);
+    };
+
+    const handleTH = (e) => {
+      setThreshold(e.target.value);
+    }
+
     
     const fileSelected = (e) => { 
       if(fselected!==e && fselected) setMsg('')
@@ -111,20 +127,47 @@ export default function Upload(){
     const handleStart = (e) => {
       if(fselected){
         if(bank){
-          if(!encrypted) setMsg('')
-          else setMsg('Please select your Bank!')
-          if (encrypted && !password) setMsg('Enter Password!')
-          else setMsg('')
+          if(!encrypted) {setMsg(''); proceedUFile(true)}
+          else {setMsg('Please select your Bank!'); proceedUFile(false)}
+          if (encrypted && !password) {setMsg('Enter Password!'); proceedUFile(false)}
+          else { setMsg(''); proceedUFile(true)}
         }
-        else setMsg('Please select your Bank!')
+        else {setMsg('Please select your Bank!'); proceedUFile(false)}
       } else {
-        setMsg('Please select your File!')
+        setMsg('Please select your File!');
+        proceedUFile(false)
       }
+      
+      console.log();
+      if(uploadFile) sendFile()
+      else console.log(uploadFile);
+    }
+
+    const sendFile = () =>{
+
+      const formData = new FormData();
+
+      formData.append('pdfFile', pdfFile[0]);
+      formData.append('bank', bank);
+      formData.append('password', password ? password : null);
+      formData.append('threshold', threshold ? threshold : null);
+      
+      const headers = {
+        'content-type': 'multipart/form-data',
+      }
+
+      axios({
+        method:'post',
+        headers:headers,
+        url:"http://localhost:8000/upload",
+        data: formData
+      }).then(res=>console.log(res))
+        .catch(err=>console.log(err))
     }
 
     useEffect(()=>{
       if(fselected){
-        console.log(fselected);
+        // console.log(pdfFile);
         if(bank){
           if(!encrypted) setclass('dark');
           else if(encrypted && password) setclass('dark'); else setclass('dark disabled')
@@ -132,7 +175,7 @@ export default function Upload(){
       } else {
         setclass('dark disabled')
       }
-    }, [encrypted, bank, password, fselected])
+    }, [encrypted, bank, password, fselected, pdfFile])
 
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -157,7 +200,7 @@ export default function Upload(){
                   <Grid item xs={12} md={6}>
 
                       <div class="container shadow">
-                          <StyledDropzone fileSelected={fileSelected} />
+                          <StyledDropzone fileSelected={fileSelected} handleFile={handleFile}/>
 
                           <FormControlLabel 
                             sx={{m:0, padding:'1%',boxSizing:'border-box' ,width:'100%', justifyContent:'center', color:'white', background:'#55BF9D', borderRadius:'0px 0px 15px 15px;', boxShadow:'0px 20px 20px 12px #F4F4F4'}}
@@ -193,6 +236,7 @@ export default function Upload(){
                                   labelId="demo-simple-select-helper-label"
                                   id="demo-simple-select-helper"
                                   value={bank}
+                                  name='bank'
                                   label="Choose Your Bank"
                                   onChange={chooseBank}
                                 >
@@ -205,6 +249,22 @@ export default function Upload(){
                                 </Select>
                               <FormHelperText> Make sure you choose the correct bank appt. to the your statement. </FormHelperText>
                           </FormControl>
+
+                            <FormControl sx={{ m: 1, minWidth: 120, width:"100%", display:'block' }} variant="standard"> 
+                              <InputLabel htmlFor="standard-adornment-password"> Threshold Amount </InputLabel>
+                                  <Input
+                                      id="standard-adornment-password"
+                                      type={'number'}
+                                      value={threshold}
+                                      onChange={handleTH}
+                                      onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() }
+                                  />
+                                  <BootstrapTooltip placement="bottom-end" arrow title="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." >
+                                      <InfoIcon fontSize='small' sx={{ alignSelf:'end', cursor:'pointer' }}/>
+                                  </BootstrapTooltip>
+                                <FormHelperText> (Optional) </FormHelperText>
+
+                            </FormControl>
 
                           <FormControl sx={{ m: 1, minWidth: 120, width:'100%', display:(encrypted ? 'block' : 'none') }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
@@ -231,7 +291,7 @@ export default function Upload(){
                         </FormControl>
 
                       </ThemeProvider>
-                        
+  
                       <div id='bottom'>
                         <small style={{color:'#e05a5a'}}> { msg } </small>
                         <button id='start-process' className={classes} onClick={handleStart}> Start <KeyboardDoubleArrowRightOutlinedIcon /> </button>
@@ -243,7 +303,7 @@ export default function Upload(){
                 </Grid>
             </div>
 
-            <p style={{textAlign:'center', fontSize:'small', opacity:0.7, margin:0}}> ~ We will not share, copy or make illegal use of your data. Trust Us. ~ </p>
+            {/* <p id='footerText' style={{textAlign:'center', fontSize:'small', opacity:0.7, margin:0}}> ~ We will not share, copy or make illegal use of your data. Trust Us. ~ </p> */}
         </section>
     )
 
@@ -259,6 +319,15 @@ function AccBtn() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const toAcc = () => {
+    window.location.pathname = '/';
+    window.location.pathname = '/account'
+  }
+
+  const logout = () => {
+    window.location.pathname = '/';
+}
 
   return (
     <div>
@@ -307,11 +376,11 @@ function AccBtn() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={toAcc}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={logout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
@@ -321,3 +390,15 @@ function AccBtn() {
     </div>
   );
 }
+
+
+const BootstrapTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.black,
+  },
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.black,
+  },
+}));
