@@ -1,3 +1,4 @@
+import Account from '../components/Account/Account';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import Pricing from '../components/Pricing/Pricing';
@@ -19,6 +20,7 @@ function App() {
             <Route exact path="/pricing" element={<Pricing />}/>
             <Route exact path="/login" element={<Login />}/>
             <Route exact path="/upload" element={<Upload />}/>
+            <Route exact path="/account" element={<Account />}/>
         </Routes>
       </Router>
     </div>

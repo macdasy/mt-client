@@ -5,6 +5,11 @@ const steps = ['Upload your File' , 'Let it Process', 'Download the file'];
 
 export default function Functionality(){
 
+    const toUpload = () => {
+        window.location.pathname = '/';
+        window.location.pathname = '/upload'
+    }
+
     return(
         <section className="wrapper padded uk-text-center">
 
@@ -43,7 +48,7 @@ export default function Functionality(){
                     </Grid>
                 </Grid>
 
-                <button className="dark" style={{marginTop:'5%'}}> Upload File </button>
+                <button className="dark" style={{marginTop:'5%'}} onClick={toUpload}> Upload File </button>
             </div>
 
         </section>
