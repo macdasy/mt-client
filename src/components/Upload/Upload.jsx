@@ -159,7 +159,8 @@ export default function Upload(){
       axios({
         method:'post',
         headers:headers,
-        url:"http://localhost:8000/upload",
+        url:"http://localhost:3000/upload",
+        // url:"http://localhost:8000/upload",
         data: formData
       }).then(res=>console.log(res))
         .catch(err=>console.log(err))
