@@ -203,7 +203,7 @@ export default function Upload() {
         axios({
           method: "post",
           headers: headers,
-          url: "https://mt-server.onrender.com/upload",
+          url: "https://macro-fla3.onrender.com",
           // url: "http://localhost:8000/upload",
           data: formData,
         })
