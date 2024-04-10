@@ -204,8 +204,8 @@ export default function Upload() {
         axios({
           method: "post",
           headers: headers,
-          // url:"https://mt-server.onrender.com/upload",
-          url: "http://localhost:8000/upload",
+          url:"https://mt-server.onrender.com/upload",
+          // url: "http://localhost:8000/upload",
           data: formData,
         })
           .then((res) => {
