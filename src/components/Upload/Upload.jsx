@@ -172,10 +172,9 @@ export default function Upload() {
     if (canSubmit) sendFile();
   };
 
-  
   const sendFile = () => {
     const formData = new FormData();
-    
+
     formData.append("pdfFile", pdfFile[0]);
     formData.append("bank", bank);
     formData.append("password", password ? password : null);
@@ -196,21 +195,28 @@ export default function Upload() {
           allowOutsideClick: false,
           showConfirmButton: false,
         });
-        
+
         const headers = {
           "content-type": "multipart/form-data",
         };
-        
+
         axios({
           method: "post",
           headers: headers,
-          url:"https://mt-server.onrender.com/upload",
+          url: "https://mt-server.onrender.com/upload",
           // url: "http://localhost:8000/upload",
           data: formData,
         })
           .then((res) => {
             if (res.status === 200) {
               Swal.fire("File saved in the Dashboard", "", "success");
+              const url = window.URL.createObjectURL(new Blob([res.data]));
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", "report.pdf");
+              document.body.appendChild(link);
+              link.click();
+              link.parentNode.removeChild(link);
 
               // setBank("");
               // setPassword("");
@@ -221,7 +227,6 @@ export default function Upload() {
               // setFile("");
               // proceedUFile(false);
               // setFile();
-              
             } else {
               console.log(res);
               Swal.fire("Somethings is wrong!\nTry again Later.", "", "error");
@@ -333,7 +338,11 @@ export default function Upload() {
                     onChange={chooseBank}
                   >
                     {banks.map((b) => {
-                      return <MenuItem value={b.split(' ')[0].toUpperCase()}>{b}</MenuItem>;
+                      return (
+                        <MenuItem value={b.split(" ")[0].toUpperCase()}>
+                          {b}
+                        </MenuItem>
+                      );
                     })}
                   </Select>
                   <FormHelperText>
