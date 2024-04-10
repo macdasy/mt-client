@@ -203,7 +203,7 @@ export default function Upload() {
         axios({
           method: "post",
           headers: headers,
-          url: "https://macro-fla3.onrender.com",
+          url: "https://macrotouch-server-python.onrender.com/upload",
           // url: "http://localhost:8000/upload",
           data: formData,
         })
